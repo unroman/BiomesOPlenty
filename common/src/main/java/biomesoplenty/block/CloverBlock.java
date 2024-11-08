@@ -46,8 +46,8 @@ public class CloverBlock extends PinkPetalsBlock
     public boolean growHugeClover(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state)
     {
         level.removeBlock(pos, false);
-        Registry<ConfiguredFeature<?, ?>> configuredFeatureRegistry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
-        ConfiguredFeature<?, ?> configuredfeature = configuredFeatureRegistry.get(BOPVegetationFeatures.HUGE_CLOVER);
+        Registry<ConfiguredFeature<?, ?>> configuredFeatureRegistry = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE);
+        ConfiguredFeature<?, ?> configuredfeature = configuredFeatureRegistry.get(BOPVegetationFeatures.HUGE_CLOVER).orElseThrow().value();
 
         if (configuredfeature.place(level, level.getChunkSource().getGenerator(), rand, pos))
         {

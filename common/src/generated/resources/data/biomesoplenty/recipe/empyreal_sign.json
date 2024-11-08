@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_sign",
   "key": {
-    "#": {
-      "item": "biomesoplenty:empyreal_planks"
-    },
-    "X": {
-      "item": "minecraft:stick"
-    }
+    "#": "biomesoplenty:empyreal_planks",
+    "X": "minecraft:stick"
   },
   "pattern": [
     "###",

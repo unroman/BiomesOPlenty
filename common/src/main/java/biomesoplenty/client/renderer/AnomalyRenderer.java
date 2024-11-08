@@ -44,7 +44,7 @@ public class AnomalyRenderer implements BlockEntityRenderer<AnomalyBlockEntity> 
         // In these cases, we'll just fail silently
         try
         {
-            this.dispatcher.getModelRenderer().tesselateBlock(level, this.dispatcher.getBlockModel(renderState), renderState, pos, poseStack, buffer.getBuffer(ItemBlockRenderTypes.getRenderType(renderState, true)), false, RandomSource.create(), renderState.getSeed(pos), OverlayTexture.NO_OVERLAY);
+            this.dispatcher.getModelRenderer().tesselateBlock(level, this.dispatcher.getBlockModel(renderState), renderState, pos, poseStack, buffer.getBuffer(ItemBlockRenderTypes.getRenderType(renderState)), false, RandomSource.create(), renderState.getSeed(pos), OverlayTexture.NO_OVERLAY);
         }
         catch (Exception e) {}
     }

@@ -8,9 +8,12 @@ import biomesoplenty.api.block.BOPBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.MultifaceSpreader;
@@ -49,14 +52,14 @@ public class BarnaclesBlock extends MultifaceBlock implements SimpleWaterloggedB
     }
 
     @Override
-    public BlockState updateShape(BlockState p_153302_, Direction p_153303_, BlockState p_153304_, LevelAccessor p_153305_, BlockPos p_153306_, BlockPos p_153307_)
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random)
     {
-        if (p_153302_.getValue(WATERLOGGED))
+        if (state.getValue(WATERLOGGED))
         {
-            p_153305_.scheduleTick(p_153306_, Fluids.WATER, Fluids.WATER.getTickDelay(p_153305_));
+            tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return super.updateShape(p_153302_, p_153303_, p_153304_, p_153305_, p_153306_, p_153307_);
+        return super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override
@@ -97,7 +100,7 @@ public class BarnaclesBlock extends MultifaceBlock implements SimpleWaterloggedB
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState p_181225_, BlockGetter p_181226_, BlockPos p_181227_)
+    public boolean propagatesSkylightDown(BlockState p_181225_)
     {
         return p_181225_.getFluidState().isEmpty();
     }

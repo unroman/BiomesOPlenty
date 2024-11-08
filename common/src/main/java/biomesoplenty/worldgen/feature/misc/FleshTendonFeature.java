@@ -52,7 +52,7 @@ public class FleshTendonFeature extends Feature<NoneFeatureConfiguration>
         WorldGenLevel world = context.level();
         RandomSource rand = context.random();
         BlockPos pos = context.origin();
-        final int maxY = world.getMinBuildHeight() + world.getHeight() - 1;
+        final int maxY = world.getMinY() + world.getHeight() - 1;
         
         BlockState below = world.getBlockState(pos.below());
         if (!below.is(ModTags.Blocks.FLESH))

@@ -31,3 +31,6 @@ accessible method net/minecraft/world/damagesource/DamageSources source (Lnet/mi
 
 # VillagerType
 accessible field net/minecraft/world/entity/npc/VillagerType BY_BIOME Ljava/util/Map;
+
+# Block Entities
+accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V

@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_fence",
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "W": {
-      "item": "biomesoplenty:empyreal_planks"
-    }
+    "#": "minecraft:stick",
+    "W": "biomesoplenty:empyreal_planks"
   },
   "pattern": [
     "W#W",

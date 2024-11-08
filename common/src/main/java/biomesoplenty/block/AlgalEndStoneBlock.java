@@ -32,18 +32,18 @@ public class AlgalEndStoneBlock extends Block implements BonemealableBlock
         super(properties);
     }
 
-    private static boolean canBeGrass(BlockState p_56824_, LevelReader p_56825_, BlockPos p_56826_)
+    private static boolean canBeGrass(BlockState state, LevelReader p_56825_, BlockPos p_56826_)
     {
-        BlockPos blockpos = p_56826_.above();
-        BlockState blockstate = p_56825_.getBlockState(blockpos);
-        if (blockstate.getFluidState().getAmount() == 8)
+        BlockPos abovePos = p_56826_.above();
+        BlockState aboveState = p_56825_.getBlockState(abovePos);
+        if (aboveState.getFluidState().getAmount() == 8)
         {
             return false;
         }
         else
         {
-            int i = LightEngine.getLightBlockInto(p_56825_, p_56824_, p_56826_, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(p_56825_, blockpos));
-            return i < p_56825_.getMaxLightLevel();
+            int i = LightEngine.getLightBlockInto(state, aboveState, Direction.UP, aboveState.getLightBlock());
+            return i < 15;
         }
     }
 
@@ -72,7 +72,7 @@ public class AlgalEndStoneBlock extends Block implements BonemealableBlock
     public void performBonemeal(ServerLevel p_221270_, RandomSource p_221271_, BlockPos p_221272_, BlockState p_221273_)
     {
         BlockPos blockpos = p_221272_.above();
-        Optional<Holder.Reference<PlacedFeature>> optional = p_221270_.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(BOPEndPlacements.ENDERPHYTE_BONEMEAL);
+        Optional<Holder.Reference<PlacedFeature>> optional = p_221270_.registryAccess().lookupOrThrow(Registries.PLACED_FEATURE).get(BOPEndPlacements.ENDERPHYTE_BONEMEAL);
 
         label49:
         for(int i = 0; i < 128; ++i)

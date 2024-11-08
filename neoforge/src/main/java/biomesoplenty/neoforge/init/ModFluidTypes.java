@@ -62,42 +62,6 @@ public class ModFluidTypes
             {
                 return canFluidLog ? super.getBlockPathType(state, level, pos, mob, true) : null;
             }
-
-            @Override
-            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
-            {
-                consumer.accept(new IClientFluidTypeExtensions()
-                {
-                    private static final ResourceLocation BLOOD_UNDERWATER = ResourceLocation.parse("biomesoplenty:textures/block/blood_underwater.png"),
-                            BLOOD_STILL = ResourceLocation.parse("biomesoplenty:block/blood_still"),
-                            BLOOD_FLOW = ResourceLocation.parse("biomesoplenty:block/blood_flow");
-
-                    @Override
-                    public ResourceLocation getStillTexture()
-                    {
-                        return BLOOD_STILL;
-                    }
-
-                    @Override
-                    public ResourceLocation getFlowingTexture() { return BLOOD_FLOW; }
-
-                    @Override
-                    public ResourceLocation getRenderOverlayTexture(Minecraft mc) { return BLOOD_UNDERWATER; }
-
-                    @Override
-                    public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor)
-                    {
-                        return new Vector3f(0.407F, 0.121F, 0.137F);
-                    }
-
-                    @Override
-                    public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
-                    {
-                        RenderSystem.setShaderFogStart(0.125F);
-                        RenderSystem.setShaderFogEnd(5.0F);
-                    }
-                });
-            }
         }, "blood");
 
         LIQUID_NULL_TYPE = registerFluidType(() -> new FluidType(FluidType.Properties.create()
@@ -114,42 +78,6 @@ public class ModFluidTypes
             public PathType getBlockPathType(FluidState state, BlockGetter level, BlockPos pos, @Nullable Mob mob, boolean canFluidLog)
             {
                 return canFluidLog ? super.getBlockPathType(state, level, pos, mob, true) : null;
-            }
-
-            @Override
-            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
-            {
-                consumer.accept(new IClientFluidTypeExtensions()
-                {
-                    private static final ResourceLocation LIQUID_NULL_UNDERWATER = ResourceLocation.parse("biomesoplenty:textures/block/liquid_null_underwater.png"),
-                            LIQUID_NULL_STILL = ResourceLocation.parse("biomesoplenty:block/liquid_null_still"),
-                            LIQUID_NULL_FLOW = ResourceLocation.parse("biomesoplenty:block/liquid_null_flow");
-
-                    @Override
-                    public ResourceLocation getStillTexture()
-                    {
-                        return LIQUID_NULL_STILL;
-                    }
-
-                    @Override
-                    public ResourceLocation getFlowingTexture() { return LIQUID_NULL_FLOW; }
-
-                    @Override
-                    public ResourceLocation getRenderOverlayTexture(Minecraft mc) { return LIQUID_NULL_UNDERWATER; }
-
-                    @Override
-                    public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor)
-                    {
-                        return new Vector3f(0.0F, 0.0F, 0.0F);
-                    }
-
-                    @Override
-                    public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
-                    {
-                        RenderSystem.setShaderFogStart(0.1F);
-                        RenderSystem.setShaderFogEnd(2.5F);
-                    }
-                });
             }
         }, "liquid_null");
     }

@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class CeilingHangingSignBlockBOP extends CeilingHangingSignBlock
 {
-    public CeilingHangingSignBlockBOP(Properties properties, WoodType type)
+    public CeilingHangingSignBlockBOP(WoodType type, Properties properties)
     {
         super(type, properties);
     }

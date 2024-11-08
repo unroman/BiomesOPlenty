@@ -18,7 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -41,19 +40,23 @@ import java.util.stream.IntStream;
 
 public class BOPBlockLoot extends BlockLootSubProvider
 {
-    protected static final LootItemCondition.Builder HAS_SHEARS = MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModTags.Items.SHEARS));
+    protected final LootItemCondition.Builder hasShears;
     private static final Set<Item> EXPLOSION_RESISTANT = Set.of();
     private static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F};
 
     public BOPBlockLoot(HolderLookup.Provider lookup)
     {
         super(EXPLOSION_RESISTANT, FeatureFlags.REGISTRY.allFlags(), lookup);
+
+        HolderLookup.RegistryLookup<Item> itemLookup = this.registries.lookupOrThrow(Registries.ITEM);
+        this.hasShears = MatchTool.toolMatches(ItemPredicate.Builder.item().of(itemLookup, ModTags.Items.SHEARS));
     }
 
     @Override
     protected void generate()
     {
         HolderLookup.RegistryLookup<Enchantment> lookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+        HolderLookup.RegistryLookup<Item> itemLookup = this.registries.lookupOrThrow(Registries.ITEM);
 
         // Sandstone
         this.dropSelf(BOPBlocks.WHITE_SAND);
@@ -122,7 +125,7 @@ public class BOPBlockLoot extends BlockLootSubProvider
 
         // Rose Quartz
         this.dropSelf(BOPBlocks.ROSE_QUARTZ_BLOCK);
-        this.add(BOPBlocks.ROSE_QUARTZ_CLUSTER, (p_252201_) -> { return createSilkTouchDispatchTable(p_252201_, LootItem.lootTableItem(BOPItems.ROSE_QUARTZ_CHUNK).apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))).apply(ApplyBonusCount.addOreBonusCount(lookup.getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(p_252201_, LootItem.lootTableItem(BOPItems.ROSE_QUARTZ_CHUNK).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))); });
+        this.add(BOPBlocks.ROSE_QUARTZ_CLUSTER, (p_252201_) -> { return createSilkTouchDispatchTable(p_252201_, LootItem.lootTableItem(BOPItems.ROSE_QUARTZ_CHUNK).apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))).apply(ApplyBonusCount.addOreBonusCount(lookup.getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(itemLookup, ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(p_252201_, LootItem.lootTableItem(BOPItems.ROSE_QUARTZ_CHUNK).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))); });
         this.dropWhenSilkTouch(BOPBlocks.SMALL_ROSE_QUARTZ_BUD);
         this.dropWhenSilkTouch(BOPBlocks.MEDIUM_ROSE_QUARTZ_BUD);
         this.dropWhenSilkTouch(BOPBlocks.LARGE_ROSE_QUARTZ_BUD);
@@ -150,7 +153,7 @@ public class BOPBlockLoot extends BlockLootSubProvider
         // Webbing Blocks
         this.dropWhenSilkTouch(BOPBlocks.SPIDER_EGG);
         this.addStrandPlantDropTable(BOPBlocks.HANGING_COBWEB, BOPBlocks.HANGING_COBWEB_STRAND);
-        this.add(BOPBlocks.WEBBING, (p_249543_) -> { return this.createMultifaceBlockDrops(p_249543_, HAS_SHEARS); });
+        this.add(BOPBlocks.WEBBING, (p_249543_) -> { return this.createMultifaceBlockDrops(p_249543_, hasShears); });
 
         this.add(BOPBlocks.ORIGIN_GRASS_BLOCK, (p_249779_) -> { return this.createSingleItemTableWithSilkTouch(p_249779_, Blocks.DIRT); });
 
@@ -510,7 +513,7 @@ public class BOPBlockLoot extends BlockLootSubProvider
 
     protected LootTable.Builder createCloverDrops(Block p_273240_)
     {
-        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(HAS_SHEARS).add(this.applyExplosionDecay(p_273240_, LootItem.lootTableItem(p_273240_).apply(IntStream.rangeClosed(1, 4).boxed().toList(), (p_272348_) -> {
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(hasShears).add(this.applyExplosionDecay(p_273240_, LootItem.lootTableItem(p_273240_).apply(IntStream.rangeClosed(1, 4).boxed().toList(), (p_272348_) -> {
             return SetItemCountFunction.setCount(ConstantValue.exactly((float)p_272348_.intValue())).when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(p_273240_).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(PinkPetalsBlock.AMOUNT, p_272348_)));
         }))));
     }
@@ -521,11 +524,6 @@ public class BOPBlockLoot extends BlockLootSubProvider
         this.add(p_250696_, loottable$builder);
     }
 
-    protected static LootTable.Builder createShearsOnlyDrop(ItemLike p_250684_)
-    {
-        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).when(HAS_SHEARS).add(LootItem.lootTableItem(p_250684_)));
-    }
-
     @Override
     protected LootTable.Builder createOakLeavesDrops(Block p_249535_, Block p_251505_, float... p_250753_) {
         HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
@@ -534,7 +532,7 @@ public class BOPBlockLoot extends BlockLootSubProvider
 
     @Override
     protected LootTable.Builder createShearsDispatchTable(Block p_252195_, LootPoolEntryContainer.Builder<?> p_250102_) {
-        return createSelfDropDispatchTable(p_252195_, HAS_SHEARS, p_250102_);
+        return createSelfDropDispatchTable(p_252195_, hasShears, p_250102_);
     }
 
     @Override
@@ -553,6 +551,6 @@ public class BOPBlockLoot extends BlockLootSubProvider
     }
 
     private LootItemCondition.Builder hasShearsOrSilkTouch() {
-        return HAS_SHEARS.or(this.hasSilkTouch());
+        return hasShears.or(this.hasSilkTouch());
     }
 }

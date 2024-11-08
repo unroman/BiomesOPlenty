@@ -30,7 +30,7 @@ public class FlowerBlockBOP extends FlowerBlock
     protected static final VoxelShape MEDIUM = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 12.0D, 13.0D);
 	protected static final VoxelShape LARGE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 	
-    public FlowerBlockBOP(Holder<MobEffect> effect, int effectDuration, Block.Properties properties)
+    public FlowerBlockBOP(Holder<MobEffect> effect, Block.Properties properties)
     {
         super(effect, 0, properties);
     }
@@ -54,7 +54,7 @@ public class FlowerBlockBOP extends FlowerBlock
             shape = SHORT;
         }
 
-        Vec3 vec3 = state.getOffset(worldIn, pos);
+        Vec3 vec3 = state.getOffset(pos);
         return shape.move(vec3.x, vec3.y, vec3.z);
     }
     

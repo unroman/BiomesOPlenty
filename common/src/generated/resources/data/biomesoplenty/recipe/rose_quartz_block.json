@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "biomesoplenty:rose_quartz_chunk"
-    }
+    "#": "biomesoplenty:rose_quartz_chunk"
   },
   "pattern": [
     "##",

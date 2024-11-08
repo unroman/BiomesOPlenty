@@ -29,7 +29,7 @@ public class BOPDataMapProvider extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider lookup) {
         ModVanillaCompat.compostables.forEach(this::addCompostable);
     }
 

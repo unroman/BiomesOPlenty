@@ -11,6 +11,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -90,10 +91,9 @@ public class ModFluidTypes
                     }
 
                     @Override
-                    public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
+                    public FogParameters modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, FogParameters original)
                     {
-                        RenderSystem.setShaderFogStart(0.125F);
-                        RenderSystem.setShaderFogEnd(5.0F);
+                        return new FogParameters(0.125F, 5.0F, original.shape(), original.red(), original.green(), original.blue(), original.alpha());
                     }
                 });
             }
@@ -143,10 +143,9 @@ public class ModFluidTypes
                     }
 
                     @Override
-                    public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape)
+                    public FogParameters modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, FogParameters original)
                     {
-                        RenderSystem.setShaderFogStart(0.1F);
-                        RenderSystem.setShaderFogEnd(2.5F);
+                        return new FogParameters(0.1F, 2.5F, original.shape(), original.red(), original.green(), original.blue(), original.alpha());
                     }
                 });
             }

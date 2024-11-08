@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_sign",
   "key": {
-    "#": {
-      "item": "biomesoplenty:fir_planks"
-    },
-    "X": {
-      "item": "minecraft:stick"
-    }
+    "#": "biomesoplenty:fir_planks",
+    "X": "minecraft:stick"
   },
   "pattern": [
     "###",

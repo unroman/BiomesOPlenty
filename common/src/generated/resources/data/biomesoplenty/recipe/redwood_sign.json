@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "wooden_sign",
   "key": {
-    "#": {
-      "item": "biomesoplenty:redwood_planks"
-    },
-    "X": {
-      "item": "minecraft:stick"
-    }
+    "#": "biomesoplenty:redwood_planks",
+    "X": "minecraft:stick"
   },
   "pattern": [
     "###",

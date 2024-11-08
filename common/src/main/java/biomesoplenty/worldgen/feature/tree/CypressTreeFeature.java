@@ -31,7 +31,7 @@ public class CypressTreeFeature extends BOPTreeFeature<CypressTreeConfiguration>
         CypressTreeConfiguration config = (CypressTreeConfiguration)configBase;
 
         // Move down until we reach the ground
-        while (startPos.getY() >= world.getMinBuildHeight()+1 && world.isEmptyBlock(startPos) || world.getBlockState(startPos).is(BlockTags.LEAVES)) {startPos = startPos.below();}
+        while (startPos.getY() >= world.getMinY()+1 && world.isEmptyBlock(startPos) || world.getBlockState(startPos).is(BlockTags.LEAVES)) {startPos = startPos.below();}
 
         // Choose heights and width
         int height = GeneratorUtil.nextIntBetween(random, config.minHeight, config.maxHeight);

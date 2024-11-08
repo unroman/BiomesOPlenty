@@ -12,10 +12,8 @@ import biomesoplenty.api.entity.BOPEntities;
 import biomesoplenty.block.HangingSignBlockEntityBOP;
 import biomesoplenty.block.entity.AnomalyBlockEntity;
 import biomesoplenty.block.entity.SignBlockEntityBOP;
-import biomesoplenty.client.renderer.BoatRendererBOP;
 import biomesoplenty.client.renderer.AnomalyRenderer;
-import biomesoplenty.entity.BoatBOP;
-import biomesoplenty.entity.ChestBoatBOP;
+import biomesoplenty.core.BiomesOPlenty;
 import biomesoplenty.particle.*;
 import glitchcore.event.EventManager;
 import glitchcore.event.client.RegisterColorsEvent;
@@ -25,16 +23,20 @@ import glitchcore.util.SheetHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.FoliageColor;
@@ -264,14 +266,35 @@ public class ModClient
     public static void registerRenderers()
     {
         // Register boat layer definitions
-        LayerDefinition boatLayerDefinition = BoatModel.createBodyModel();
-        LayerDefinition chestBoatLayerDefinition = ChestBoatModel.createBodyModel();
+        LayerDefinition boatLayerDefinition = BoatModel.createBoatModel();
+        LayerDefinition chestBoatLayerDefinition = BoatModel.createChestBoatModel();
 
-        for (BoatBOP.ModelType type : BoatBOP.ModelType.values())
-        {
-            RenderHelper.registerLayerDefinition(BoatRendererBOP.createBoatModelName(type), () -> boatLayerDefinition);
-            RenderHelper.registerLayerDefinition(BoatRendererBOP.createChestBoatModelName(type), () -> chestBoatLayerDefinition);
-        }
+        RenderHelper.registerLayerDefinition(ModModelLayers.FIR_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.FIR_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.PINE_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.PINE_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAPLE_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAPLE_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.REDWOOD_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.REDWOOD_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAHOGANY_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAHOGANY_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.JACARANDA_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.JACARANDA_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.PALM_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.PALM_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.WILLOW_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.WILLOW_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.DEAD_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.DEAD_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAGIC_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.MAGIC_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.UMBRAN_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.UMBRAN_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.HELLBARK_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.HELLBARK_CHEST_BOAT, () -> chestBoatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.EMPYREAL_BOAT, () -> boatLayerDefinition);
+        RenderHelper.registerLayerDefinition(ModModelLayers.EMPYREAL_CHEST_BOAT, () -> chestBoatLayerDefinition);
 
         // Register block entity renderers
         RenderHelper.registerBlockEntityRenderer((BlockEntityType<SignBlockEntityBOP>) BOPBlockEntities.SIGN, SignRenderer::new);
@@ -279,8 +302,32 @@ public class ModClient
         RenderHelper.registerBlockEntityRenderer((BlockEntityType<AnomalyBlockEntity>)BOPBlockEntities.ANOMALY, AnomalyRenderer::new);
 
         // Register entity renderers
-        RenderHelper.registerEntityRenderer((EntityType<BoatBOP>) BOPEntities.BOAT, context -> new BoatRendererBOP(context, false));
-        RenderHelper.registerEntityRenderer((EntityType<ChestBoatBOP>) BOPEntities.CHEST_BOAT, context -> new BoatRendererBOP(context, true));
+        RenderHelper.registerEntityRenderer(BOPEntities.FIR_BOAT, context -> new BoatRenderer(context, ModModelLayers.FIR_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.FIR_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.FIR_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.PINE_BOAT, context -> new BoatRenderer(context, ModModelLayers.PINE_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.PINE_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.PINE_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAPLE_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAPLE_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAPLE_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAPLE_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.REDWOOD_BOAT, context -> new BoatRenderer(context, ModModelLayers.REDWOOD_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.REDWOOD_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.REDWOOD_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAHOGANY_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAHOGANY_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAHOGANY_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAHOGANY_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.JACARANDA_BOAT, context -> new BoatRenderer(context, ModModelLayers.JACARANDA_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.JACARANDA_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.JACARANDA_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.PALM_BOAT, context -> new BoatRenderer(context, ModModelLayers.PALM_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.PALM_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.PALM_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.WILLOW_BOAT, context -> new BoatRenderer(context, ModModelLayers.WILLOW_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.WILLOW_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.WILLOW_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.DEAD_BOAT, context -> new BoatRenderer(context, ModModelLayers.DEAD_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.DEAD_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.DEAD_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAGIC_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAGIC_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.MAGIC_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.MAGIC_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.UMBRAN_BOAT, context -> new BoatRenderer(context, ModModelLayers.UMBRAN_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.UMBRAN_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.UMBRAN_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.HELLBARK_BOAT, context -> new BoatRenderer(context, ModModelLayers.HELLBARK_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.HELLBARK_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.HELLBARK_CHEST_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.EMPYREAL_BOAT, context -> new BoatRenderer(context, ModModelLayers.EMPYREAL_BOAT));
+        RenderHelper.registerEntityRenderer(BOPEntities.EMPYREAL_CHEST_BOAT, context -> new BoatRenderer(context, ModModelLayers.EMPYREAL_CHEST_BOAT));
     }
 
     public static void registerItemColors(RegisterColorsEvent.Item event)

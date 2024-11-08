@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "biomesoplenty:brimstone"
-    }
+    "biomesoplenty:brimstone"
   ],
   "result": {
     "count": 4,

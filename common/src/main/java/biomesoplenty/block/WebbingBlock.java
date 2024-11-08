@@ -70,7 +70,7 @@ public class WebbingBlock extends MultifaceBlock
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState p_181225_, BlockGetter p_181226_, BlockPos p_181227_) {
+    public boolean propagatesSkylightDown(BlockState p_181225_) {
         return p_181225_.getFluidState().isEmpty();
     }
 }

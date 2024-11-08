@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "boat",
   "key": {
-    "#": {
-      "item": "biomesoplenty:willow_planks"
-    }
+    "#": "biomesoplenty:willow_planks"
   },
   "pattern": [
     "# #",

@@ -7,8 +7,11 @@ package biomesoplenty.block;
 import biomesoplenty.api.block.BOPBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,21 +31,21 @@ public class WillowLeavesBlock extends LeavesBlock
     }
 
     @Override
-    public BlockState updateShape(BlockState p_54440_, Direction p_54441_, BlockState p_54442_, LevelAccessor p_54443_, BlockPos p_54444_, BlockPos p_54445_)
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random)
     {
-        if (p_54440_.getValue(WATERLOGGED))
+        if (state.getValue(WATERLOGGED))
         {
-            p_54443_.scheduleTick(p_54444_, Fluids.WATER, Fluids.WATER.getTickDelay(p_54443_));
+            tickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        int i = getDistanceAt(p_54442_) + 1;
-        if (i != 1 || p_54440_.getValue(DISTANCE) != i)
+        int i = getDistanceAt(facingState) + 1;
+        if (i != 1 || state.getValue(DISTANCE) != i)
         {
-            p_54443_.scheduleTick(p_54444_, this, 1);
+            tickAccess.scheduleTick(pos, this, 1);
         }
 
-        BlockState below = p_54443_.getBlockState(p_54444_.below());
-        return p_54440_.setValue(MOSSY, Boolean.valueOf(isMoss(below)));
+        BlockState below = level.getBlockState(pos.below());
+        return state.setValue(MOSSY, Boolean.valueOf(isMoss(below)));
     }
 
     @Override

@@ -1,7 +1,5 @@
 {
-  "carvers": {
-    "air": "minecraft:nether_cave"
-  },
+  "carvers": "minecraft:nether_cave",
   "downfall": 0.0,
   "effects": {
     "ambient_sound": "minecraft:ambient.soul_sand_valley.loop",

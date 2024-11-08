@@ -30,7 +30,7 @@ public class AnomalyBlockEntity extends BlockEntity
     private BlockState lastState = null;
 
     private final Supplier<LinkedHashSet<BlockState>> renderStates = Suppliers.memoize(() -> {
-        Registry<Block> blockRegistry = level.registryAccess().registryOrThrow(Registries.BLOCK);
+        Registry<Block> blockRegistry = level.registryAccess().lookupOrThrow(Registries.BLOCK);
         return blockRegistry.entrySet().stream().map(e -> e.getValue().defaultBlockState()).filter(state -> state.getRenderShape() == RenderShape.MODEL).collect(Collectors.toCollection(LinkedHashSet::new));
     });
 

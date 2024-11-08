@@ -3,9 +3,7 @@
   "category": "blocks",
   "cookingtime": 200,
   "experience": 0.1,
-  "ingredient": {
-    "item": "biomesoplenty:white_sandstone"
-  },
+  "ingredient": "biomesoplenty:white_sandstone",
   "result": {
     "count": 1,
     "id": "biomesoplenty:smooth_white_sandstone"

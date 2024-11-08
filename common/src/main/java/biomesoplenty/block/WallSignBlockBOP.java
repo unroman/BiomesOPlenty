@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class WallSignBlockBOP extends WallSignBlock
 {
-    public WallSignBlockBOP(Properties properties, WoodType type)
+    public WallSignBlockBOP(WoodType type, Properties properties)
     {
         super(type, properties);
     }

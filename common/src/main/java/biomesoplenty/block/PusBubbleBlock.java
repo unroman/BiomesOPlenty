@@ -46,9 +46,9 @@ public class PusBubbleBlock extends Block
     }
 
     @Override
-    public BlockState updateShape(BlockState p_51032_, Direction p_51033_, BlockState p_51034_, LevelAccessor p_51035_, BlockPos p_51036_, BlockPos p_51037_)
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random)
     {
-        return !p_51032_.canSurvive(p_51035_, p_51036_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_51032_, p_51033_, p_51034_, p_51035_, p_51036_, p_51037_);
+        return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class PusBubbleBlock extends Block
     }
 
     @Override
-    public void wasExploded(Level p_54184_, BlockPos p_54185_, Explosion p_54186_)
+    public void wasExploded(ServerLevel p_54184_, BlockPos p_54185_, Explosion p_54186_)
     {
         if (p_54184_ instanceof ServerLevel)
         {

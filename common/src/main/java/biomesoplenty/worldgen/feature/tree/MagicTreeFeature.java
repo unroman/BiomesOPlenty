@@ -35,7 +35,7 @@ public class MagicTreeFeature extends BOPTreeFeature<MagicTreeConfiguration>
 
         //Generate only if we are above the lowest bedrock level (1) and reach less than the world height
         //There must be a gap of 1 between the top leaf block and the world height
-        if (pos.getY() >= world.getMinBuildHeight()+1 && pos.getY() + height + 1 <= world.getMaxBuildHeight())
+        if (pos.getY() >= world.getMinY()+1 && pos.getY() + height + 1 <= world.getMaxY())
         {
             int radius;
 
@@ -60,7 +60,7 @@ public class MagicTreeFeature extends BOPTreeFeature<MagicTreeConfiguration>
                 {
                     for (int z = pos.getZ() - radius; z <= pos.getZ() + radius && hasSpace; ++z)
                     {
-                        if (y >= world.getMinBuildHeight() && y < world.getMaxBuildHeight())
+                        if (y >= world.getMinY() && y < world.getMaxY())
                         {
                             if (!this.canReplace(world, new BlockPos(x, y, z)))
                             {
@@ -84,7 +84,7 @@ public class MagicTreeFeature extends BOPTreeFeature<MagicTreeConfiguration>
                 BlockPos soilPos = pos.below();
                 Block soil = world.getBlockState(soilPos).getBlock();
 
-                if (pos.getY() < world.getMaxBuildHeight() - height - 1)
+                if (pos.getY() < world.getMaxY() - height - 1)
                 {
                     world.setBlock(soilPos, Blocks.DIRT.defaultBlockState(), 3);
                     this.generateTrunk(logs, leaves, world, pos, height, config);

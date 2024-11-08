@@ -120,7 +120,7 @@ public class BayouTreeFeature extends BOPTreeFeature<BayouTreeConfiguration>
         BayouTreeConfiguration config = (BayouTreeConfiguration)configBase;
 
         // Move down until we reach the ground
-        while (startPos.getY() >= world.getMinBuildHeight()+1 && this.canReplace(world, startPos) || world.getBlockState(startPos).is(BlockTags.LEAVES)) {startPos = startPos.below();}
+        while (startPos.getY() >= world.getMinY()+1 && this.canReplace(world, startPos) || world.getBlockState(startPos).is(BlockTags.LEAVES)) {startPos = startPos.below();}
 
         // Choose heights
         int height = GeneratorUtil.nextIntBetween(random, config.minHeight, config.maxHeight);

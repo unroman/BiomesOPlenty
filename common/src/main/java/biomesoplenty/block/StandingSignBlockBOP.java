@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class StandingSignBlockBOP extends StandingSignBlock
 {
-    public StandingSignBlockBOP(Properties properties, WoodType type)
+    public StandingSignBlockBOP(WoodType type, Properties properties)
     {
         super(type, properties);
     }

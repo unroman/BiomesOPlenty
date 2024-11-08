@@ -11,7 +11,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
@@ -52,8 +54,9 @@ public class SpiderEggBlock extends Block
     }
 
     @Override
-    public BlockState updateShape(BlockState p_51032_, Direction p_51033_, BlockState p_51034_, LevelAccessor p_51035_, BlockPos p_51036_, BlockPos p_51037_) {
-        return !p_51032_.canSurvive(p_51035_, p_51036_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_51032_, p_51033_, p_51034_, p_51035_, p_51036_, p_51037_);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess tickAccess, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random)
+    {
+        return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, tickAccess, pos, facing, facingPos, facingState, random);
     }
 
     @Override
@@ -84,7 +87,7 @@ public class SpiderEggBlock extends Block
     }
 
     @Override
-    public void wasExploded(Level p_54184_, BlockPos p_54185_, Explosion p_54186_) {
+    public void wasExploded(ServerLevel p_54184_, BlockPos p_54185_, Explosion p_54186_) {
         if (p_54184_ instanceof ServerLevel)
         {
             this.spawnSpider((ServerLevel)p_54184_, p_54185_);
@@ -93,7 +96,7 @@ public class SpiderEggBlock extends Block
 
     public void spawnSpider(Level p_154567_, BlockPos p_154569_)
     {
-        CaveSpider spider = EntityType.CAVE_SPIDER.create(p_154567_);
+        CaveSpider spider = EntityType.CAVE_SPIDER.create(p_154567_, EntitySpawnReason.TRIGGERED);
         spider.moveTo((double)p_154569_.getX() + 0.5D, (double)p_154569_.getY(), (double)p_154569_.getZ() + 0.5D, 0.0F, 0.0F);
         p_154567_.addFreshEntity(spider);
     }

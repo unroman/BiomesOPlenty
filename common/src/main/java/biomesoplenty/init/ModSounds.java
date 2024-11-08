@@ -42,7 +42,7 @@ public class ModSounds
 
         SoundEvent event = SoundEvent.createVariableRangeEvent(location);
         func.accept(location, event);
-        return BuiltInRegistries.SOUND_EVENT.getHolder(key).orElseThrow();
+        return BuiltInRegistries.SOUND_EVENT.get(key).orElseThrow();
     }
 
     private static SoundEvent register(BiConsumer<ResourceLocation, SoundEvent> func, String name)

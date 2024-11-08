@@ -103,9 +103,9 @@ public class BOPOverworldBiomes
 
     private static void globalOverworldGenerationNoLavaLakes(BiomeGenerationSettings.Builder builder)
     {
-        builder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE);
-        builder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND);
-        builder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);
+        builder.addCarver(Carvers.CAVE);
+        builder.addCarver(Carvers.CAVE_EXTRA_UNDERGROUND);
+        builder.addCarver(Carvers.CANYON);
         builder.addFeature(GenerationStep.Decoration.LAKES, MiscOverworldPlacements.LAKE_LAVA_UNDERGROUND);
 
         BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
@@ -961,7 +961,7 @@ public class BOPOverworldBiomes
 
         // Biome features
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(placedFeatureGetter, carverGetter);
-        biomeBuilder.addCarver(GenerationStep.Carving.AIR, BOPConfiguredCarvers.ORIGIN_CAVE);
+        biomeBuilder.addCarver(BOPConfiguredCarvers.ORIGIN_CAVE);
         BiomeDefaultFeatures.addDefaultMonsterRoom(biomeBuilder);
         BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
         BiomeDefaultFeatures.addSurfaceFreezing(biomeBuilder);

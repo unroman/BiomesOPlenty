@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "chest_boat",
   "ingredients": [
-    {
-      "item": "minecraft:chest"
-    },
-    {
-      "item": "biomesoplenty:fir_boat"
-    }
+    "minecraft:chest",
+    "biomesoplenty:fir_boat"
   ],
   "result": {
     "count": 1,
